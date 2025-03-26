@@ -8,6 +8,11 @@
     font-family: var.$main-font-family;
 }
 
+%button-typography {
+    font-size: var.$button-font-size;
+    line-height: var.$button-line-heigt;
+    font-family: var.$button-font-family;
+}
 
 // Links, using CSS variables because it may need to be able to change depending on theme.
 a {

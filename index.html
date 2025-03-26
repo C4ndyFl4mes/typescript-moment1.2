@@ -1,17 +1,31 @@
 <!doctype html>
 <html lang="sv">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/styles/main.scss">
-    <script type="module" src="/src/scripts/main.ts"></script>
-    <title>Vite + TS</title>
-  </head>
-  <body>
-    <header></header>
-    <main>
-      <h1>Kurser</h1>
-    </main>
-    <footer></footer>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/src/styles/main.scss">
+  <script type="module" src="/src/scripts/main.ts"></script>
+  <title>Vite + TS</title>
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <h1>Kurser</h1>
+    <div class="table-frame">
+      <table>
+        <thead>
+          <th>Kurskod</th>
+          <th>Kursnamn</th>
+          <th>Progression</th>
+        </thead>
+        <tbody id="course-container"></tbody>
+      </table>
+      <div id="controls-div" class="control-layout"></div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
 </html>

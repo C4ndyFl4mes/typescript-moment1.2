@@ -10,3 +10,18 @@ main {
 
     @extend %main-typography;
 }
+
+.table-frame {
+    max-width: 600px;
+}
+
+.control-layout {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        max-width: 6rem;
+
+        @extend %button-typography;
+    }
+}
