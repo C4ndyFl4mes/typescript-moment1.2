@@ -11,6 +11,10 @@ main {
     @extend %main-typography;
 }
 
+.button {
+    @extend %button-typography;
+}
+
 .table-frame {
     max-width: 600px;
 }
@@ -21,7 +25,5 @@ main {
 
     button {
         max-width: 6rem;
-
-        @extend %button-typography;
     }
 }

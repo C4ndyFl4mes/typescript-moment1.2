@@ -1,25 +1,14 @@
 const cContainer: HTMLElement | null = document.getElementById("course-container");
 const controls: HTMLElement | null = document.getElementById("controls-div");
+const addCourseBTN: HTMLElement | null = document.getElementById("add-course");
 
 window.addEventListener<"load">("load", (): void => {
-	// LocalStorage later...
-
-	// console.log("a");
-	const test: CourseInfo = {
-		coursecode: "a",
-		coursename: "abcd",
-		progression: Progression.A
-	};
-
-	const tc = new Course(test);
-
-	tc.render();
+	
 
 	if (cContainer && cContainer.innerHTML === "") {
-		console.log("a");
 		const label = ce("label", null, null);
 		label.setAttribute("for", "get-courses");
-		label.textContent = "Det finns inga kurser, vill du hämta nya?";
+		label.textContent = "Du har inga sparade kurser, vill du hämta?";
 
 		const gBTN = ce("button", "get-courses", "button");
 		gBTN.textContent = "Hämta";
@@ -31,15 +20,74 @@ window.addEventListener<"load">("load", (): void => {
 	}
 });
 
+addCourseBTN?.addEventListener<"click">("click", () => {
+	createCourseFromInput();
+});
+
+/**
+ * 
+ * @param id 
+ * @returns 
+ */
+function getValInput(id: string): string | null {
+	const el = document.getElementById(id) as HTMLInputElement | null;
+	if (el) {
+		return el.value;
+	} else {
+		return null;
+	}
+
+}
+
+/**
+ * 
+ */
+function createCourseFromInput(): void {
+	const code: string | null = getValInput("coursecode-input");
+	const name: string | null = getValInput("coursename-input");
+	const progression: string | null = getValInput("progression-input");
+	const url: string | null = getValInput("url-input");
+
+	if (code && name && progression) {
+		if (Object.values(Progression).includes(progression)) {
+			let course: CourseInfo;
+			if (url) {
+				course = {
+					coursecode: code,
+					coursename: name,
+					progression: progression,
+					syllabus: url
+				}
+			} else {
+				course = {
+					coursecode: code,
+					coursename: name,
+					progression: progression
+				}
+			}
+			const newCourse = new Course(course);
+			newCourse.render();
+		} else {
+			console.log("Progression måste vara antingen A, B eller C.");
+		}
+	} else {
+		console.log("Alla fält förutom länk är obligatoriska.");
+	}
+	
+}
+
 enum Progression { "A", "B", "C" };
 
 interface CourseInfo {
 	coursecode: string;
 	coursename: string;
-	progression: Progression;
+	progression: string;
 	syllabus?: string;
 }
 
+/**
+ * 
+ */
 class Course {
 	private ci: CourseInfo;
 
@@ -55,7 +103,7 @@ class Course {
 		this.ci.coursename = newName;
 	}
 
-	editProgression(newProgression: Progression): void {
+	editProgression(newProgression: string): void {
 		this.ci.progression = newProgression;
 	}
 
@@ -83,6 +131,23 @@ class Course {
 
 		if (cContainer) {
 			cContainer.appendChild(tr);
+			this.storeInfo();
+		}
+	}
+
+	storeInfo(): void {
+		const coursesStr: string | null = localStorage.getItem("courses");
+		
+		if (coursesStr !== null) {
+			const courses: Array<CourseInfo> = JSON.parse(coursesStr);
+			if (courses.some(course => course.coursecode !== this.ci.coursecode)) {
+				courses.push(this.ci);
+				localStorage.setItem("courses", JSON.stringify(courses));
+			}
+
+		} else {
+			const courses: Array<CourseInfo> = [this.ci];
+			localStorage.setItem("courses", JSON.stringify(courses));
 		}
 	}
 }
