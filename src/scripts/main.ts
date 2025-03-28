@@ -352,9 +352,9 @@ function editCourse(): void {
 	const progression: string | null = getValInput("progression-input");
 	const url: string | null = getValInput("url-input");
 
-	if (codeChange && name && progression) {
+	if (code && codeChange && name && progression) {
 		const course: Course = courseObjects.filter(course => course.getCourseInfo().code === code)[0];
-		if (!courseExists(codeChange) || code === codeChange) {
+		if (courseExists(code) && (!courseExists(codeChange) || code === codeChange)) {
 			if (checkProgression(progression)) {
 				if (courseCodeINPUT) courseCodeINPUT.value = codeChange;
 				if (url) {
@@ -377,8 +377,8 @@ function editCourse(): void {
 				alert("Progression måste vara antingen A, B eller C.");
 			}
 		} else {
-			console.log("Kurskoder måste vara unika.");
-			alert("Kurskoder måste vara unika.");
+			console.log("Kurskoder måste vara unika eller den kurskod som ska ändras måste finnas.");
+			alert("Kurskoder måste vara unika eller den kurskod som ska ändras måste finnas.");
 		}
 	} else {
 		console.log("Alla fält förutom länk är obligatoriska.");
