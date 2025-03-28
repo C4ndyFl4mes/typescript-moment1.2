@@ -29,3 +29,19 @@ main {
         max-width: 6rem;
     }
 }
+
+.input {
+    background-color: white;
+}
+
+.row {
+    background-color: blue;
+}
+
+.selected {
+    background-color: green !important;
+}
+
+.conflict {
+    background-color: red !important;
+}

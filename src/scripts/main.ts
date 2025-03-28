@@ -123,6 +123,19 @@ function addButtons(): void {
 	}
 }
 
+// Används som valmöjligheter tillsammans med en ternär operator i funktionen nedan.
+type ValidationState = "normal" | "selected" | "conflict";
+
+/**
+ * En generisk funktion som ändrar vilka css klasser som finns på ett element vid konflikt, vald, eller normal.
+ * @param element - det element som ska påverkas.
+ * @param state - vilken status den har, normal, vald eller påvisar en konflikt.
+ */
+function updateValidationCSS<T extends HTMLElement>(element: T, state: ValidationState): void {
+	const baseClass = element instanceof HTMLInputElement ? "input" : "row";
+	element.className = state === "normal" ? baseClass : `${baseClass} ${state}`; // Om det är ett inputelement som har konflikt blir klasserna "input conflict".
+}
+
 /**
  * Beroende på ifall användaren är i ändringsläget eller inte. Om inte agerar den som att skapa ny och om i ändringsläget för att ändra.
  */
@@ -133,9 +146,9 @@ courseCodeINPUT?.addEventListener<"input">("input", (): void => {
 			if (code) {
 				const course: Course = courseObjects.filter(course => course.getCourseInfo().code === code)[0];
 				if (courseExists(code)) {
-					courseCodeINPUT.style.backgroundColor = "green";
+					updateValidationCSS(courseCodeINPUT, "selected");
 					if (course) {
-						course.getRow().style.backgroundColor = "green";
+						updateValidationCSS(course.getRow(), "selected");
 						courseNameINPUT.value = course.getCourseInfo().coursename;
 						progressionINPUT.value = course.getCourseInfo().progression;
 						const url: string | undefined = course.getCourseInfo().syllabus;
@@ -145,43 +158,37 @@ courseCodeINPUT?.addEventListener<"input">("input", (): void => {
 						}
 					}
 				} else {
-					courseCodeINPUT.style.backgroundColor = "red";
+					updateValidationCSS(courseCodeINPUT, "conflict");
 					courseObjects.forEach(c => {
-						c.getRow().style.backgroundColor = "black";
+						updateValidationCSS(c.getRow(), "normal");
 					});
 					courseNameINPUT.value = "";
 					progressionINPUT.value = "";
 					urlINPUT.value = "";
 					changeCourseCodeINPUT.value = "";
 				}
-
 			} else if (code === "") {
-				courseCodeINPUT.style.backgroundColor = "white";
-
+				updateValidationCSS(courseCodeINPUT, "normal");
 			}
 		} else {
 			if (code) {
 				const course: Course = courseObjects.filter(course => course.getCourseInfo().code === code)[0];
-
 				if (courseExists(code)) {
-					courseCodeINPUT.style.backgroundColor = "red";
+					updateValidationCSS(courseCodeINPUT, "conflict");
 					if (course) {
-						course.getRow().style.backgroundColor = "red";
+						updateValidationCSS(course.getRow(), "conflict");
 					}
 				} else {
-					courseCodeINPUT.style.backgroundColor = "white";
+					updateValidationCSS(courseCodeINPUT, "normal");
 					courseObjects.forEach(c => {
-						c.getRow().style.backgroundColor = "black";
+						updateValidationCSS(c.getRow(), "normal");
 					});
 				}
 			} else if (code === "") {
-				courseCodeINPUT.style.backgroundColor = "white";
-
+				updateValidationCSS(courseCodeINPUT, "normal");
 			}
 		}
 	}
-
-
 });
 
 /**
@@ -192,33 +199,27 @@ changeCourseCodeINPUT?.addEventListener<"input">("input", (): void => {
 	const newCode: string | null = getValInput("change-coursecode-input");
 	if (code && newCode) {
 		const course: Course = courseObjects.filter(course => course.getCourseInfo().code === newCode)[0];
-
 		if (courseExists(newCode)) {
-			changeCourseCodeINPUT.style.backgroundColor = "red";
+			updateValidationCSS(changeCourseCodeINPUT, "conflict");
 			if (course) {
-				course.getRow().style.backgroundColor = "red";
+				updateValidationCSS(course.getRow(), "conflict");
 			}
 			if (code === newCode) {
-				changeCourseCodeINPUT.style.backgroundColor = "green";
-				course.getRow().style.backgroundColor = "green";
+				updateValidationCSS(changeCourseCodeINPUT, "selected");
+				updateValidationCSS(course.getRow(), "selected");
 			}
 		} else {
-			changeCourseCodeINPUT.style.backgroundColor = "white";
+			updateValidationCSS(changeCourseCodeINPUT, "normal");
 			courseObjects.forEach(c => {
 				if (c.getCourseInfo().code !== code) {
-					c.getRow().style.backgroundColor = "black";
-
+					updateValidationCSS(c.getRow(), "normal");
 				}
 			});
-
 		}
 	} else if (newCode === "") {
-		changeCourseCodeINPUT.style.backgroundColor = "white";
-
+		updateValidationCSS(changeCourseCodeINPUT, "normal");
 	}
-
 });
-
 
 /**
  * Validerar progression.
@@ -227,12 +228,12 @@ progressionINPUT?.addEventListener<"input">("input", (): void => {
 	const progression: string | null = getValInput("progression-input");
 	if (progression) {
 		if (checkProgression(progression)) {
-			progressionINPUT.style.backgroundColor = "white";
+			updateValidationCSS(progressionINPUT, "normal");
 		} else {
-			progressionINPUT.style.backgroundColor = "red";
+			updateValidationCSS(progressionINPUT, "conflict");
 		}
 	} else if (progression === "") {
-		progressionINPUT.style.backgroundColor = "white";
+		updateValidationCSS(progressionINPUT, "normal");
 	}
 });
 
@@ -243,16 +244,16 @@ progressionINPUT?.addEventListener<"input">("input", (): void => {
 function resetInputs(): void {
 	if (editCheckBox && courseCodeINPUT && courseNameINPUT && progressionINPUT && urlINPUT && changeCourseCodeINPUT) {
 		courseCodeINPUT.value = "";
-		courseCodeINPUT.style.backgroundColor = "white";
+		updateValidationCSS(courseCodeINPUT, "normal");
 		courseNameINPUT.value = "";
 		progressionINPUT.value = "";
-		progressionINPUT.style.backgroundColor = "white";
+		updateValidationCSS(progressionINPUT, "normal");
 		urlINPUT.value = "";
 		changeCourseCodeINPUT.value = "";
-		changeCourseCodeINPUT.style.backgroundColor = "white";
+		updateValidationCSS(changeCourseCodeINPUT, "normal");
 	}
 	courseObjects.forEach(c => {
-		c.getRow().style.backgroundColor = "black";
+		updateValidationCSS(c.getRow(), "normal");
 	});
 }
 
@@ -287,7 +288,6 @@ function getValInput(id: string): string | null {
 	} else {
 		return null;
 	}
-
 }
 
 /**
@@ -314,7 +314,6 @@ function clearCourses(): void {
  */
 function deleteCourse(): void {
 	if (courseCodeINPUT) {
-
 		if (courseExists(courseCodeINPUT.value)) {
 			courseObjects = courseObjects.filter(course => course.getCourseInfo().code !== courseCodeINPUT.value);
 			if (cContainer) {
@@ -324,11 +323,9 @@ function deleteCourse(): void {
 				});
 			}
 			const coursesStr: string | null = localStorage.getItem("courses");
-
 			if (coursesStr) {
 				const courses: Array<CourseInfo> = JSON.parse(coursesStr);
 				const updatedCourses = courses.filter(course => course.code !== courseCodeINPUT.value);
-
 				localStorage.setItem("courses", JSON.stringify(updatedCourses));
 			}
 			resetInputs();
@@ -368,7 +365,6 @@ function editCourse(): void {
 
 					if (code) updateLocalStorage(code, codeChange, name, progression, url ?? undefined);
 				}
-
 				course.update();
 			} else {
 				console.log("Progression måste vara antingen A, B eller C.");
@@ -394,7 +390,6 @@ function editCourse(): void {
  */
 function updateLocalStorage(code: string, codeChange: string, name: string, progression: string, url: string | undefined): void {
 	const coursesStr: string | null = localStorage.getItem("courses");
-
 	if (coursesStr) {
 		const courses: Array<CourseInfo> = JSON.parse(coursesStr);
 
@@ -545,7 +540,7 @@ class Course {
 			this.tr.removeEventListener("click", this.openPage);
 			this.tr.title = `${this.ci.coursename} har ingen länk`;
 		}
-
+		this.tr.className = "row";
 		this.codeTD.textContent = this.ci.code;
 		this.courseNameTD.textContent = this.ci.coursename;
 		this.progressionTD.textContent = this.ci.progression;
