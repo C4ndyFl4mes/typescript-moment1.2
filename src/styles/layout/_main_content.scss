@@ -10,6 +10,11 @@ main {
 
     @extend %main-typography;
 }
+
+h1 {
+    justify-self: center;
+}
+
 .table-frame {
     max-width: 1200px;
     background-color: var(--table-bg-color);
@@ -36,6 +41,7 @@ table {
         max-width: fit-content;
         padding: 0.5rem;
         padding-bottom: 0.75rem;
+        padding-left: 0;
     }
     .inputs {
         display: flex;
