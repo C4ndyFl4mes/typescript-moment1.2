@@ -111,17 +111,20 @@ function addButtons(): void {
 				createCourse(code, name, progression, url ?? undefined);
 			} else {
 				console.log("Progression måste vara antingen A, B eller C.");
+				alert("Progression måste vara antingen A, B eller C.");
 			}
 		} else {
 			console.log("Kurskoder måste vara unika.");
+			alert("Kurskoder måste vara unika.");
 		}
 	} else {
 		console.log("Alla fält förutom länk är obligatoriska.");
+		alert("Alla fält förutom länk är obligatoriska.");
 	}
 }
 
 /**
- * 
+ * Beroende på ifall användaren är i ändringsläget eller inte. Om inte agerar den som att skapa ny och om i ändringsläget för att ändra.
  */
 courseCodeINPUT?.addEventListener<"input">("input", (): void => {
 	const code: string | null = getValInput("coursecode-input");
@@ -231,7 +234,8 @@ progressionINPUT?.addEventListener<"input">("input", (): void => {
 	} else if (progression === "") {
 		progressionINPUT.style.backgroundColor = "white";
 	}
-})
+});
+
 
 /**
  * Återställer inmatningsfälten och listans färger.
@@ -250,8 +254,6 @@ function resetInputs(): void {
 	courseObjects.forEach(c => {
 		c.getRow().style.backgroundColor = "black";
 	});
-
-
 }
 
 /**
@@ -303,8 +305,8 @@ function clearCourses(): void {
 		}
 	} else {
 		console.log("Listan är redan tom.");
+		alert("Listan är redan tom.");
 	}
-
 }
 
 /**
@@ -332,6 +334,7 @@ function deleteCourse(): void {
 			resetInputs();
 		} else {
 			console.log("Det finns ingen kurs vid det namnet att radera.");
+			alert("Det finns ingen kurs vid det namnet att radera.");
 		}
 	}
 }
@@ -350,70 +353,63 @@ function editCourse(): void {
 		const course: Course = courseObjects.filter(course => course.getCourseInfo().code === code)[0];
 		if (!courseExists(codeChange) || code === codeChange) {
 			if (checkProgression(progression)) {
+				if (courseCodeINPUT) courseCodeINPUT.value = codeChange;
 				if (url) {
 					course.editCode(codeChange);
 					course.editName(name);
 					course.editProgression(progression);
 					course.editSyllabus(url);
-					if (courseCodeINPUT) {
-						courseCodeINPUT.value = codeChange;
-					}
-					const coursesStr: string | null = localStorage.getItem("courses");
 
-					if (coursesStr) {
-						const courses: Array<CourseInfo> = JSON.parse(coursesStr);
-
-						if (url !== "") {
-							const updatedCoursed = courses.map(course => course.code === code
-								? { code: codeChange, coursename: name, progression: progression, syllabus: url }
-								: course);
-							localStorage.setItem("courses", JSON.stringify(updatedCoursed));
-
-						} else {
-							const updatedCoursed = courses.map(course => course.code === code
-								? { code: codeChange, coursename: name, progression: progression }
-								: course);
-							localStorage.setItem("courses", JSON.stringify(updatedCoursed));
-						}
-
-					}
+					if (code) updateLocalStorage(code, codeChange, name, progression, url ?? undefined);
 				} else {
 					course.editCode(codeChange);
 					course.editName(name);
 					course.editProgression(progression);
 
-					if (courseCodeINPUT) {
-						courseCodeINPUT.value = codeChange;
-					}
-					const coursesStr: string | null = localStorage.getItem("courses");
-
-					if (coursesStr) {
-						const courses: Array<CourseInfo> = JSON.parse(coursesStr);
-
-						if (url !== "") {
-							const updatedCoursed = courses.map(course => course.code === code
-								? { code: codeChange, coursename: name, progression: progression, syllabus: url }
-								: course);
-							localStorage.setItem("courses", JSON.stringify(updatedCoursed));
-
-						} else {
-							const updatedCoursed = courses.map(course => course.code === code
-								? { code: codeChange, coursename: name, progression: progression }
-								: course);
-							localStorage.setItem("courses", JSON.stringify(updatedCoursed));
-						}
-					}
+					if (code) updateLocalStorage(code, codeChange, name, progression, url ?? undefined);
 				}
 
 				course.update();
 			} else {
 				console.log("Progression måste vara antingen A, B eller C.");
+				alert("Progression måste vara antingen A, B eller C.");
 			}
 		} else {
 			console.log("Kurskoder måste vara unika.");
+			alert("Kurskoder måste vara unika.");
 		}
 	} else {
 		console.log("Alla fält förutom länk är obligatoriska.");
+		alert("Alla fält förutom länk är obligatoriska.");
+	}
+}
+
+/**
+ * För att uppdatera kurs i localStorage.
+ * @param code - Nuvarande kurskod
+ * @param codeChange - Ev. ny kurskod
+ * @param name - Kursnamn.
+ * @param progression - Progression
+ * @param url - Länk
+ */
+function updateLocalStorage(code: string, codeChange: string, name: string, progression: string, url: string | undefined): void {
+	const coursesStr: string | null = localStorage.getItem("courses");
+
+	if (coursesStr) {
+		const courses: Array<CourseInfo> = JSON.parse(coursesStr);
+
+		if (url !== "") {
+			const updatedCoursed = courses.map(course => course.code === code
+				? { code: codeChange, coursename: name, progression: progression, syllabus: url }
+				: course);
+			localStorage.setItem("courses", JSON.stringify(updatedCoursed));
+
+		} else {
+			const updatedCoursed = courses.map(course => course.code === code
+				? { code: codeChange, coursename: name, progression: progression }
+				: course);
+			localStorage.setItem("courses", JSON.stringify(updatedCoursed));
+		}
 	}
 }
 
