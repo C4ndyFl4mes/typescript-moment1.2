@@ -7,7 +7,7 @@ const courseNameINPUT = document.getElementById("coursename-input") as HTMLInput
 const progressionINPUT = document.getElementById("progression-input") as HTMLInputElement | null;
 const urlINPUT = document.getElementById("url-input") as HTMLInputElement | null;
 const editCheckBox = document.getElementById("edit-mode") as HTMLInputElement | null;
-const changeCodeTD = document.getElementById("change-code-td") as HTMLInputElement | null;
+const changeCodeDIV = document.getElementById("change-code-div") as HTMLInputElement | null;
 const addEditControlsTD: HTMLElement | null = document.getElementById("add-edit-controls");
 let courseObjects: Array<Course> = [];
 
@@ -54,18 +54,23 @@ function setGetControls() {
  * Beroende på om användaren befinner sig i ändringsläget eller inte.
  */
 editCheckBox?.addEventListener<"change">("change", (): void => {
-	if (addEditControlsTD && changeCodeTD) {
+	if (addEditControlsTD && changeCodeDIV) {
 		resetInputs();
 		if (editCheckBox.checked) {
-			changeCodeTD.style.display = "table-cell";
+			changeCodeDIV.style.display = "table-cell";
 			addEditControlsTD.innerHTML = `
-				<label for="edit-course">Vill du ändra kurs?</label>
-              	<button id="edit-course" class="button">Ändra</button>
-				<label for="delete-course">Eller radera?</label>
-              	<button id="delete-course" class="button">Radera</button>
-				<label for="clear-course">Eller radera alla kurser?</label>
-              	<button id="clear-course" class="button">Töm</button>
-			`;
+				<label for="edit-course">
+					<span>Vill du ändra kurs?</span>
+              		<button id="edit-course" class="button">Ändra</button>
+				</label>
+				<label for="delete-course">
+					<span>Eller radera?</span>
+              		<button id="delete-course" class="button">Radera</button>
+				</label>
+				<label for="clear-course">
+					<span>Eller radera alla kurser?</span>
+					<button id="clear-course" class="button">Töm</button>
+				</label>`;
 			const editBTN: HTMLElement | null = document.getElementById("edit-course");
 			editBTN?.addEventListener<"click">("click", (): void => {
 				editCourse();
@@ -81,11 +86,12 @@ editCheckBox?.addEventListener<"change">("change", (): void => {
 				clearCourses();
 			});
 		} else {
-			changeCodeTD.style.display = "none";
+			changeCodeDIV.style.display = "none";
 			addEditControlsTD.innerHTML = `
-				<label for="add-course">Vill du lägga till ny kurs?</label>
-              	<button id="add-course" class="button">Lägg till</button>
-			`;
+				<label for="add-course">
+					<span>Vill du lägga till ny kurs?</span>
+              		<button id="add-course" class="button">Lägg till</button>
+				</label>`;
 			const addBTN: HTMLElement | null = document.getElementById("add-course");
 			addBTN?.addEventListener<"click">("click", addButtons);
 		}

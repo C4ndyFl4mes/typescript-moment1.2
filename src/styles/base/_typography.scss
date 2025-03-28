@@ -14,6 +14,21 @@
     font-family: var.$button-font-family;
 }
 
+%table-typography {
+    thead {
+        font-size: var.$table-font-size * 1.15;
+        line-height: var.$table-line-height * 1.15;
+
+    }
+    tbody {
+        font-size: var.$table-font-size;
+        line-height: var.$table-line-height;
+    }
+}
+%input-typography {
+    font-size: var.$input-font-size;
+    line-height: var.$input-line-heght;
+}
 // Links, using CSS variables because it may need to be able to change depending on theme.
 a {
     color: var(--link-normal);

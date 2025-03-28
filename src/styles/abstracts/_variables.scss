@@ -10,6 +10,12 @@ $main-font-family: Arial, Helvetica, sans-serif;
 $button-font-size: 1.2rem;
 $button-line-heigt: 1.8rem;
 $button-font-family: Arial, Helvetica, sans-serif;
+
+$table-font-size: 1.1rem;
+$table-line-height: 1.6rem;
+
+$input-font-size: 1rem;
+$input-line-heght: 1.5rem;
 // ...
 
 
@@ -17,11 +23,19 @@ $button-font-family: Arial, Helvetica, sans-serif;
 // Light Theme (lith)
 $lith-primary-bg-color: #fff;
 $lith-primary-fg-color: #000;
+$lith-secondary-bg-color: #17af8e;
+
+$lith-table-bg-color: #000000;
+$lith-row-bg-color: #000;
 // ...
 
 // Dark Theme (dath)
-$dath-primary-bg-color: #000;
+$dath-primary-bg-color: #005353;
 $dath-primary-fg-color: #fff;
+$dath-secondary-bg-color: #17af8e;
+
+$dath-table-bg-color: #00203a;
+$dath-row-bg-color: #013158;
 // ...
 
 $link-normal-color: #00f;

@@ -21,45 +21,41 @@
           <th>Progression</th>
         </thead>
         <tbody id="course-container"></tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3">
-              <label for="edit-mode" id="edit-label">Ändringsläget</label>
-              <input type="checkbox" name="edit" id="edit-mode">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="coursecode-input">Kurskod</label>
-              <input type="text" name="coursecode" id="coursecode-input" class="input">
-            </td>
-            <td>
-              <label for="coursename-input">Kursnamn</label>
-              <input type="text" name="coursename" id="coursename-input" class="input">
-            </td>
-            <td>
-              <label for="progression-input">Progression</label>
-              <input type="text" name="progression" id="progression-input" class="input">
-            </td>
-            <tr>
-              <td colspan="2">
-                <label for="url-input">Länk</label>
-                <input type="url" name="url" id="url-input" class="input">
-              </td>
-              <td id="change-code-td">
-                <label for="change-coursecode-input">Ändra Kurskod</label>
-                <input type="text" name="changecoursecode" id="change-coursecode-input" class="input">
-              </td>
-            </tr>
-           <tr>
-            <td colspan="3" id="add-edit-controls">
-              <label for="add-course">Vill du lägga till ny kurs?</label>
-              <button id="add-course" class="button">Lägg till</button>
-            </td>
-           </tr>
-          </tr>
-        </tfoot>
       </table>
+      <div class="form">
+        <label for="edit-mode">
+          <span>Ändringsläget</span>
+          <input type="checkbox" name="edit" id="edit-mode">
+        </label>
+        <div class="inputs">
+          <label for="coursecode-input">
+            <span>Kurskod</span>
+            <input type="text" name="coursecode" id="coursecode-input" class="input">
+          </label>
+          <label for="coursename-input">
+            <span>Kursnamn</span>
+            <input type="text" name="coursename" id="coursename-input" class="input">
+          </label>
+          <label for="progression-input">
+            <span>Progression</span>
+            <input type="text" name="progression" id="progression-input" class="input">
+          </label>
+          <label for="url-input">
+            <span>Länk</span>
+            <input type="url" name="url" id="url-input" class="input">
+          </label>
+          <div id="change-code-div">
+            <label for="change-coursecode-input">Ändra Kurskod</label>
+            <input type="text" name="changecoursecode" id="change-coursecode-input" class="input">
+          </div>
+        </div>
+        <div id="add-edit-controls">
+          <label for="add-course">
+            <span>Vill du lägga till ny kurs?</span>
+            <button id="add-course" class="button">Lägg till</button>
+          </label>
+        </div>
+      </div>
       <div id="controls-div" class="control-layout"></div>
     </div>
   </main>

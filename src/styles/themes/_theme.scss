@@ -16,14 +16,18 @@ $base-theme: (
 // Light theme
 $light-theme: (
     "primary-bg-color": var.$lith-primary-bg-color,
-    "primary-fg-color": var.$lith-primary-fg-color
+    "primary-fg-color": var.$lith-primary-fg-color,
+    "table-bg-color": var.$lith-table-bg-color,
+    "row-bg-color": var.$lith-row-bg-color
     // ...
 );
 
 // Dark theme
 $dark-theme: (
     "primary-bg-color": var.$dath-primary-bg-color,
-    "primary-fg-color": var.$dath-primary-fg-color
+    "primary-fg-color": var.$dath-primary-fg-color,
+    "table-bg-color": var.$dath-table-bg-color,
+    "row-bg-color": var.$dath-row-bg-color
     // ...
 );
 
