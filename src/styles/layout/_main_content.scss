@@ -14,7 +14,9 @@ main {
 .button {
     @extend %button-typography;
 }
-
+#change-code-td {
+    display: none;
+}
 .table-frame {
     max-width: 600px;
 }

@@ -23,6 +23,12 @@
         <tbody id="course-container"></tbody>
         <tfoot>
           <tr>
+            <td colspan="3">
+              <label for="edit-mode" id="edit-label">Ändringsläget</label>
+              <input type="checkbox" name="edit" id="edit-mode">
+            </td>
+          </tr>
+          <tr>
             <td>
               <label for="coursecode-input">Kurskod</label>
               <input type="text" name="coursecode" id="coursecode-input">
@@ -36,13 +42,17 @@
               <input type="text" name="progression" id="progression-input">
             </td>
             <tr>
-              <td colspan="3">
+              <td colspan="2">
                 <label for="url-input">Länk</label>
                 <input type="url" name="url" id="url-input">
               </td>
+              <td id="change-code-td">
+                <label for="change-coursecode-input">Ändra Kurskod</label>
+                <input type="text" name="changecoursecode" id="change-coursecode-input">
+              </td>
             </tr>
            <tr>
-            <td colspan="3">
+            <td colspan="3" id="add-edit-controls">
               <label for="add-course">Vill du lägga till ny kurs?</label>
               <button id="add-course" class="button">Lägg till</button>
             </td>
